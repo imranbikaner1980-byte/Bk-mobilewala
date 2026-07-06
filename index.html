@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bikaner Mobilewala — Welcome to the Apple World</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #f5f5f7;
+    --panel: #ffffff;
+    --ink: #1d1d1f;
+    --ink-soft: #6e6e73;
+    --blue: #0071e3;
+    --blue-dark: #0058b0;
+    --gold: #a47e3b;
+    --line: #e5e5e7;
+    --radius: 18px;
+    --shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3, .brand{font-family:'Poppins', sans-serif;}
+  a{text-decoration:none; color:inherit;}
+  button{font-family:inherit; cursor:pointer; border:none;}
+  img{max-width:100%; display:block;}
+
+  /* ---------- NAV ---------- */
+  .navbar{
+    position:sticky; top:0; z-index:200;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 20px;
+    background:rgba(245,245,247,0.85);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{font-weight:800; font-size:1.05rem; letter-spacing:0.3px;}
+  .brand span{color:var(--blue);}
+  .nav-links{display:none; gap:28px; font-weight:500; font-size:0.95rem;}
+  .nav-links a{color:var(--ink); opacity:0.75; transition:opacity .2s;}
+  .nav-links a:hover{opacity:1;}
+  .nav-right{display:flex; align-items:center; gap:14px;}
+  .cart-btn{
+    position:relative; width:42px; height:42px; border-radius:50%;
+    background:var(--ink); color:#fff; display:flex; align-items:center; justify-content:center;
+    font-size:1.1rem;
+  }
+  .cart-count{
+    position:absolute; top:-4px; right:-4px;
+    background:var(--blue); color:#fff; font-size:0.65rem; font-weight:700;
+    width:18px; height:18px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+  }
+  @media(min-width:800px){ .nav-links{display:flex;} }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:48px 20px 40px;
+    display:flex; flex-direction:column; align-items:center; text-align:center; gap:22px;
+  }
+  .eyebrow{
+    font-size:0.75rem; letter-spacing:2.5px; text-transform:uppercase;
+    color:var(--gold); font-weight:700;
+  }
+  .hero h1{
+    font-size:2.1rem; line-height:1.15; font-weight:800; max-width:640px;
+  }
+  .hero h1 em{
+    font-style:normal; color:var(--blue);
+    border-bottom:3px solid var(--gold);
+  }
+  .hero p{
+    color:var(--ink-soft); font-size:1.02rem; max-width:480px; line-height:1.5;
+  }
+  .shop-now{
+    background:var(--ink); color:#fff; padding:14px 34px; border-radius:999px;
+    font-weight:600; font-size:1rem; transition:transform .2s, background .2s;
+  }
+  .shop-now:hover{background:var(--blue); transform:translateY(-2px);}
+  .hero-image-wrap{
+    width:100%; max-width:520px; border-radius:28px;
+    background:linear-gradient(180deg, #ffffff 0%, #eceef1 100%);
+    box-shadow:var(--shadow);
+    padding:18px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .hero-image-wrap img{
+    width:100%; height:auto; object-fit:contain; border-radius:16px;
+  }
+
+  @media(min-width:900px){
+    .hero{ flex-direction:row; text-align:left; padding:80px 60px; gap:50px; }
+    .hero-content{ flex:1; align-items:flex-start; display:flex; flex-direction:column; gap:22px; }
+    .hero h1{font-size:2.8rem;}
+    .hero-image-wrap{flex:1; max-width:520px;}
+  }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section-head{ text-align:center; margin-bottom:34px; }
+  .section-head .eyebrow{ display:block; margin-bottom:8px; }
+  .section-head h2{ font-size:1.7rem; font-weight:800; }
+  .section-head p{ color:var(--ink-soft); margin-top:8px; font-size:0.98rem; }
+
+  /* ---------- PRODUCTS ---------- */
+  .products{ padding:60px 0 70px; }
+  .products .section-head{ padding:0 20px; }
+  .carousel-track{
+    display:flex; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory;
+    padding:10px 20px 26px; -webkit-overflow-scrolling:touch;
+  }
+  .carousel-track::-webkit-scrollbar{ height:6px; }
+  .carousel-track::-webkit-scrollbar-thumb{ background:#d0d0d5; border-radius:10px; }
+  .card{
+    scroll-snap-align:start;
+    flex:0 0 220px;
+    background:var(--panel); border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    overflow:hidden; display:flex; flex-direction:column;
+    transition:transform .25s ease;
+  }
+  .card:hover{ transform:translateY(-6px); }
+  .card-img{
+    width:100%; aspect-ratio:1/1; background:#fafafa;
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .card-img img{ width:100%; height:100%; object-fit:cover; }
+  .card-body{ padding:14px 16px 18px; display:flex; flex-direction:column; gap:10px; flex:1; }
+  .card-body h3{ font-size:0.98rem; font-weight:600; line-height:1.3; }
+  .dm-price{ font-size:0.78rem; font-weight:700; color:var(--gold); letter-spacing:0.3px; }
+  .add-btn{
+    margin-top:auto; background:var(--bg); border:1.5px solid var(--ink);
+    color:var(--ink); padding:10px; border-radius:10px; font-weight:600; font-size:0.9rem;
+    transition:background .2s, color .2s;
+  }
+  .add-btn:hover{ background:var(--ink); color:#fff; }
+  .add-btn.added{ background:var(--blue); color:#fff; border-color:var(--blue); }
+
+  /* ---------- ABOUT ---------- */
+  .about{ padding:60px 20px; background:var(--panel); }
+  .features{
+    display:grid; grid-template-columns:1fr; gap:18px; max-width:1000px; margin:0 auto;
+  }
+  @media(min-width:700px){ .features{ grid-template-columns:repeat(4,1fr); } }
+  .feature{
+    background:var(--bg); border-radius:16px; padding:22px 18px; text-align:center;
+  }
+  .feature .icon{ font-size:1.6rem; margin-bottom:10px; }
+  .feature h3{ font-size:1rem; margin-bottom:6px; }
+  .feature p{ font-size:0.85rem; color:var(--ink-soft); line-height:1.4; }
+
+  /* ---------- CONTACT ---------- */
+  .contact{ padding:60px 20px 80px; }
+  .contact-grid{
+    max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:16px;
+  }
+  @media(min-width:700px){ .contact-grid{ flex-direction:row; } }
+  .contact-card{
+    flex:1; background:var(--panel); border-radius:var(--radius); padding:26px;
+    box-shadow:var(--shadow);
+  }
+  .contact-card h3{ font-size:1.05rem; margin-bottom:12px; }
+  .contact-card p{ color:var(--ink-soft); font-size:0.92rem; line-height:1.7; }
+  .contact-card a.wa-link{ color:var(--blue); font-weight:600; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--ink); color:#f2f2f2; text-align:center; padding:30px 20px;
+    font-size:0.85rem;
+  }
+  footer .brand{ color:#fff; font-size:1rem; margin-bottom:6px; }
+  footer p{ opacity:0.7; margin-top:6px; }
+
+  /* ---------- FLOATING BUTTONS ---------- */
+  .float-wa{
+    position:fixed; left:18px; bottom:20px; z-index:300;
+  }
+  .wa-main-btn{
+    width:56px; height:56px; border-radius:50%; background:#25D366; color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:1.6rem;
+    box-shadow:0 6px 18px rgba(37,211,102,0.45);
+  }
+  .wa-menu{
+    position:absolute; bottom:66px; left:0; background:#fff; border-radius:14px;
+    box-shadow:var(--shadow); overflow:hidden; width:210px;
+    display:none; flex-direction:column;
+  }
+  .wa-menu.open{ display:flex; }
+  .wa-menu a{
+    padding:12px 16px; font-size:0.88rem; font-weight:500; color:var(--ink);
+    border-bottom:1px solid var(--line); display:flex; align-items:center; gap:8px;
+  }
+  .wa-menu a:last-child{ border-bottom:none; }
+
+  /* ---------- CART DRAWER ---------- */
+  .overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:400;
+    opacity:0; pointer-events:none; transition:opacity .25s;
+  }
+  .overlay.open{ opacity:1; pointer-events:auto; }
+  .drawer{
+    position:fixed; top:0; right:-100%; width:100%; max-width:400px; height:100%;
+    background:#fff; z-index:500; box-shadow:-10px 0 30px rgba(0,0,0,0.15);
+    transition:right .3s ease; display:flex; flex-direction:column;
+  }
+  .drawer.open{ right:0; }
+  .drawer-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 20px; border-bottom:1px solid var(--line);
+  }
+  .drawer-head h3{ font-size:1.1rem; }
+  .close-btn{ font-size:1.3rem; background:none; color:var(--ink-soft); }
+  .drawer-body{ flex:1; overflow-y:auto; padding:16px 20px; }
+  .empty-cart{ color:var(--ink-soft); text-align:center; padding:40px 0; font-size:0.92rem; }
+  .cart-item{
+    display:flex; gap:12px; align-items:center; padding:12px 0; border-bottom:1px solid var(--line);
+  }
+  .cart-item img{ width:54px; height:54px; object-fit:cover; border-radius:10px; }
+  .cart-item-info{ flex:1; }
+  .cart-item-info h4{ font-size:0.9rem; font-weight:600; margin-bottom:4px; }
+  .qty-controls{ display:flex; align-items:center; gap:8px; }
+  .qty-controls button{
+    width:24px; height:24px; border-radius:6px; background:var(--bg); font-weight:700;
+  }
+  .remove-btn{ color:#c0392b; font-size:0.78rem; font-weight:600; }
+
+  .order-form{ padding:16px 20px 24px; border-top:1px solid var(--line); }
+  .order-form label{ font-size:0.82rem; font-weight:600; display:block; margin-bottom:6px; margin-top:12px; }
+  .order-form input{
+    width:100%; padding:11px 12px; border-radius:10px; border:1.5px solid var(--line);
+    font-size:0.92rem; font-family:inherit;
+  }
+  .order-form input:focus{ outline:none; border-color:var(--blue); }
+  .send-btn{
+    margin-top:16px; width:100%; background:var(--blue); color:#fff; padding:13px;
+    border-radius:12px; font-weight:700; font-size:0.98rem; transition:background .2s;
+  }
+  .send-btn:hover{ background:var(--blue-dark); }
+  .send-btn:disabled{ background:#a9a9ac; cursor:not-allowed; }
+  .form-msg{ margin-top:10px; font-size:0.85rem; text-align:center; }
+  .form-msg.ok{ color:#1a7f37; }
+  .form-msg.err{ color:#c0392b; }
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<header class="navbar">
+  <div class="brand">BIKANER <span>MOBILEWALA</span></div>
+  <nav class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#products">Products</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="nav-right">
+    <button class="cart-btn" id="cartOpenBtn" aria-label="Open cart">
+      🛍️
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <span class="eyebrow">Bikaner Mobilewala</span>
+    <h1>Welcome to the <em>Apple</em> World.</h1>
+    <p>The best of Apple, just a click away. Genuine iPhones, AirPods, Watches &amp; accessories — handpicked and delivered with trust.</p>
+    <a href="#products" class="shop-now">Shop Now</a>
+  </div>
+  <div class="hero-image-wrap">
+    <img src="https://i.ibb.co/QFFtLqLz/1783354100759.png" alt="Bikaner Mobilewala hero">
+  </div>
+</section>
+
+<!-- ================= PRODUCTS ================= -->
+<section class="products" id="products">
+  <div class="section-head">
+    <span class="eyebrow">Our Collection</span>
+    <h2>Apple, Curated For You</h2>
+    <p>Swipe through our latest arrivals. Tap "Add to Cart" and send us a query — we'll get back with the best price.</p>
+  </div>
+  <div class="carousel-track" id="carouselTrack"></div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="about" id="about">
+  <div class="section-head">
+    <span class="eyebrow">Why Us</span>
+    <h2>Trusted Apple Reseller in Bikaner</h2>
+  </div>
+  <div class="features">
+    <div class="feature">
+      <div class="icon">✅</div>
+      <h3>100% Genuine</h3>
+      <p>Every product sourced through authorized channels with full warranty support.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">💰</div>
+      <h3>Best Prices</h3>
+      <p>Send a query and get the most competitive price in the market, personally.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🚚</div>
+      <h3>Quick Delivery</h3>
+      <p>Fast and safe delivery across Bikaner and nearby areas.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">📞</div>
+      <h3>Personal Support</h3>
+      <p>Direct WhatsApp support to help you pick the right Apple product.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact" id="contact">
+  <div class="section-head">
+    <span class="eyebrow">Get In Touch</span>
+    <h2>We'd Love To Hear From You</h2>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-card">
+      <h3>Store Details</h3>
+      <p>
+        <strong>Bikaner Mobilewala</strong><br>
+        Email: imranbikaner1980@gmail.com
+      </p>
+    </div>
+    <div class="contact-card">
+      <h3>Chat With Us</h3>
+      <p>
+        Prefer WhatsApp? Reach us directly:<br>
+        <a class="wa-link" href="https://wa.me/9925231505" target="_blank">+91 99252 31505</a><br>
+        <a class="wa-link" href="https://wa.me/7016249687" target="_blank">+91 70162 49687</a>
+      </p>
+    </div>
+    <div class="contact-card">
+      <h3>How Ordering Works</h3>
+      <p>
+        Add products to your cart, fill in your name and phone number, and hit "Send Order".
+        We'll receive your request by email and confirm details over a call or WhatsApp.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="brand">BIKANER MOBILEWALA</div>
+  <div>Welcome to the Apple World.</div>
+  <p>&copy; <span id="year"></span> Bikaner Mobilewala. All rights reserved.</p>
+</footer>
+
+<!-- ================= FLOATING WHATSAPP ================= -->
+<div class="float-wa">
+  <div class="wa-menu" id="waMenu">
+    <a href="https://wa.me/9925231505" target="_blank">💬 +91 99252 31505</a>
+    <a href="https://wa.me/7016249687" target="_blank">💬 +91 70162 49687</a>
+  </div>
+  <button class="wa-main-btn" id="waMainBtn" aria-label="Chat on WhatsApp">🟢</button>
+</div>
+
+<!-- ================= CART DRAWER ================= -->
+<div class="overlay" id="overlay"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>Your Cart</h3>
+    <button class="close-btn" id="closeCartBtn">✕</button>
+  </div>
+  <div class="drawer-body" id="drawerBody">
+    <p class="empty-cart">Your cart is empty. Add some Apple magic! ✨</p>
+  </div>
+  <form class="order-form" id="orderForm">
+    <label for="custName">Your Name</label>
+    <input type="text" id="custName" placeholder="e.g. Ramesh Sharma" required>
+    <label for="custPhone">Phone Number</label>
+    <input type="tel" id="custPhone" placeholder="e.g. 98765 43210" required>
+    <button type="submit" class="send-btn" id="sendBtn">Send Order</button>
+    <div class="form-msg" id="formMsg"></div>
+  </form>
+</div>
+
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  /* =========================================================
+     EMAILJS SETUP — REQUIRED BEFORE THIS FORM CAN SEND EMAILS
+     1. Create a free account at https://www.emailjs.com
+     2. Add an Email Service (e.g. Gmail) connected to
+        imranbikaner1980@gmail.com
+     3. Create an Email Template with variables:
+        {{customer_name}}, {{customer_phone}}, {{items_list}}, {{to_email}}
+     4. Replace the three placeholders below with your real IDs.
+     ========================================================= */
+  const EMAILJS_PUBLIC_KEY  = "YOUR_PUBLIC_KEY";
+  const EMAILJS_SERVICE_ID  = "YOUR_SERVICE_ID";
+  const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+  const OWNER_EMAIL = "imranbikaner1980@gmail.com";
+
+  if (window.emailjs && EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY") {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+  }
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ---------------- PRODUCT DATA ---------------- */
+  const products = [
+    { id: 1,  name: "iPhone 17 Pro Max 1TB",              img: "https://i.ibb.co/993JGdvp/IMG-20260706-WA0071.jpg" },
+    { id: 2,  name: "iPhone 16 Pro 256GB Black",           img: "https://i.ibb.co/svPnh5bd/IMG-20260706-WA0078.jpg" },
+    { id: 3,  name: "iPhone 16 Pro 128GB",                 img: "https://i.ibb.co/xKSrJ32q/IMG-20260706-WA0079.jpg" },
+    { id: 4,  name: "iPhone 16 Pro Max 256GB",             img: "https://i.ibb.co/Xf09pJFC/IMG-20260706-WA0080.jpg" },
+    { id: 5,  name: "iPhone 16 Pro 256GB Desert",          img: "https://i.ibb.co/fzVMz8WM/IMG-20260706-WA0070.jpg" },
+    { id: 6,  name: "Samsung S25 Ultra 256GB",             img: "https://i.ibb.co/prvFTbb8/IMG-20260706-WA0077.jpg" },
+    { id: 7,  name: "iPhone 17 Pro Max 1TB",               img: "https://i.ibb.co/993JGdvp/IMG-20260706-WA0071.jpg" },
+    { id: 8,  name: "iPhone 17 Pro Max 256GB",             img: "https://i.ibb.co/TxYS8fQf/IMG-20260706-WA0073.jpg" },
+    { id: 9,  name: "iPhone 17 Pro Max 256GB",             img: "https://i.ibb.co/HpddSNPc/IMG-20260706-WA0076.jpg" },
+    { id: 10, name: "iPhone 17 Pro Max 256GB",             img: "https://i.ibb.co/JR77p38s/IMG-20260706-WA0075.jpg" },
+    { id: 11, name: "iPhone 17 Pro Max 256GB",             img: "https://i.ibb.co/k62qhntx/IMG-20260706-WA0072.jpg" },
+  ];
+
+  const track = document.getElementById('carouselTrack');
+  products.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-img"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+      <div class="card-body">
+        <h3>${p.name}</h3>
+        <span class="dm-price">DM for price</span>
+        <button class="add-btn" data-id="${p.id}">Add to Cart</button>
+      </div>
+    `;
+    track.appendChild(card);
+  });
+
+  /* ---------------- AUTO SLIDE CAROUSEL ---------------- */
+  let autoSlide = setInterval(() => {
+    track.scrollBy({ left: 240, behavior: 'smooth' });
+    if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 5) {
+      setTimeout(() => track.scrollTo({ left: 0, behavior: 'smooth' }), 800);
+    }
+  }, 3000);
+  track.addEventListener('mouseenter', () => clearInterval(autoSlide));
+  track.addEventListener('touchstart', () => clearInterval(autoSlide), { passive: true });
+
+  /* ---------------- CART LOGIC (in-memory) ---------------- */
+  const cart = {}; // { productId: quantity }
+
+  function addToCart(id, btnEl) {
+    cart[id] = (cart[id] || 0) + 1;
+    updateCartUI();
+    if (btnEl) {
+      btnEl.textContent = "Added ✓";
+      btnEl.classList.add('added');
+      setTimeout(() => {
+        btnEl.textContent = "Add to Cart";
+        btnEl.classList.remove('added');
+      }, 900);
+    }
+  }
+
+  function removeFromCart(id) {
+    delete cart[id];
+    updateCartUI();
+  }
+
+  function changeQty(id, delta) {
+    cart[id] = (cart[id] || 0) + delta;
+    if (cart[id] <= 0) delete cart[id];
+    updateCartUI();
+  }
+
+  function cartCountTotal() {
+    return Object.values(cart).reduce((a, b) => a + b, 0);
+  }
+
+  function updateCartUI() {
+    document.getElementById('cartCount').textContent = cartCountTotal();
+    const body = document.getElementById('drawerBody');
+    const ids = Object.keys(cart);
+    if (ids.length === 0) {
+      body.innerHTML = '<p class="empty-cart">Your cart is empty. Add some Apple magic! ✨</p>';
+      return;
+    }
+    body.innerHTML = ids.map(id => {
+      const p = products.find(pr => pr.id == id);
+      const qty = cart[id];
+      return `
+        <div class="cart-item">
+          <img src="${p.img}" alt="${p.name}">
+          <div class="cart-item-info">
+            <h4>${p.name}</h4>
+            <div class="qty-controls">
+              <button type="button" onclick="changeQty(${p.id}, -1)">−</button>
+              <span>${qty}</span>
+              <button type="button" onclick="changeQty(${p.id}, 1)">+</button>
+            </div>
+          </div>
+          <button type="button" class="remove-btn" onclick="removeFromCart(${p.id})">Remove</button>
+        </div>
+      `;
+    }).join('');
+  }
+
+  track.addEventListener('click', e => {
+    if (e.target.classList.contains('add-btn')) {
+      addToCart(Number(e.target.dataset.id), e.target);
+    }
+  });
+
+  /* ---------------- CART DRAWER OPEN/CLOSE ---------------- */
+  const drawer = document.getElementById('drawer');
+  const overlay = document.getElementById('overlay');
+
+  function openDrawer() {
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+  }
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+  }
+  document.getElementById('cartOpenBtn').addEventListener('click', openDrawer);
+  document.getElementById('closeCartBtn').addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+
+  /* ---------------- WHATSAPP MENU ---------------- */
+  const waBtn = document.getElementById('waMainBtn');
+  const waMenu = document.getElementById('waMenu');
+  waBtn.addEventListener('click', () => waMenu.classList.toggle('open'));
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.float-wa')) waMenu.classList.remove('open');
+  });
+
+  /* ---------------- ORDER FORM -> EMAILJS ---------------- */
+  const orderForm = document.getElementById('orderForm');
+  const formMsg = document.getElementById('formMsg');
+  const sendBtn = document.getElementById('sendBtn');
+
+  orderForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    formMsg.textContent = '';
+    formMsg.className = 'form-msg';
+
+    const name = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    const ids = Object.keys(cart);
+
+    if (ids.length === 0) {
+      formMsg.textContent = "Your cart is empty — add a product first.";
+      formMsg.classList.add('err');
+      return;
+    }
+    if (!name || !phone) {
+      formMsg.textContent = "Please enter your name and phone number.";
+      formMsg.classList.add('err');
+      return;
+    }
+
+    const itemsList = ids.map(id => {
+      const p = products.find(pr => pr.id == id);
+      return `${p.name} x${cart[id]}`;
+    }).join('\n');
+
+    if (!window.emailjs || EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY") {
+      formMsg.textContent = "Order ready! (Connect EmailJS keys in the code to enable auto-sending.)";
+      formMsg.classList.add('err');
+      console.log("ORDER DETAILS:\nName: " + name + "\nPhone: " + phone + "\nItems:\n" + itemsList);
+      return;
+    }
+
+    sendBtn.disabled = true;
+    sendBtn.textContent = "Sending...";
+
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      customer_name: name,
+      customer_phone: phone,
+      items_list: itemsList,
+      to_email: OWNER_EMAIL
+    }).then(() => {
+      formMsg.textContent = "Order sent! We'll contact you shortly. 🎉";
+      formMsg.classList.add('ok');
+      Object.keys(cart).forEach(id => delete cart[id]);
+      updateCartUI();
+      orderForm.reset();
+      sendBtn.disabled = false;
+      sendBtn.textContent = "Send Order";
+      setTimeout(closeDrawer, 1800);
+    }).catch(err => {
+      console.error(err);
+      formMsg.textContent = "Something went wrong. Please try WhatsApp instead.";
+      formMsg.classList.add('err');
+      sendBtn.disabled = false;
+      sendBtn.textContent = "Send Order";
+    });
+  });
+</script>
+</body>
+</html>
